@@ -1,7 +1,6 @@
-"""
 Created on Fri Feb 18 09:41:15 2022
 
-@author: 
+author: 
     Buki: olubukola.ishola@okstate.edu
     Data and Computational Geoscientist
 
@@ -14,10 +13,6 @@ credit:
     Patchify: https://pypi.org/project/patchify/
     DigitalSreeni: https://www.youtube.com/c/DigitalSreeni/
    
-"""
-"""
 code requirement(s):
     install patchify:  "pip install patchify"
     see more information here: https://pypi.org/project/patchify/https://pypi.org/project/patchify/
-   
-"""
