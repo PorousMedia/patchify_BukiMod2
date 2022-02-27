@@ -25,6 +25,7 @@ code requirement(s):
 
 from patchify import patchify, unpatchify
 import numpy as np
+import sys
 
 def patch(image,z_axis,x_axis,y_axis):
     
@@ -41,14 +42,33 @@ def patch(image,z_axis,x_axis,y_axis):
     Returns:
         (Array of uint8): Subvolumes stcaked into a single 3D array.
     '''
-    
+    if  len(image.shape)<2:
+        print('Error::::::::::::: A 2D or 3D array is expected')
+        sys.exit()  
+
+    if  len(image.shape)>3:
+        print('Error::::::::::::: A 2D or 3D array is expected')
+        sys.exit()  
+        
     if len(image.shape)==2:
         print('2D array detected...expanding dimension to 3D array...', flush=True)
         image = np.reshape(image,(1, image.shape[0], image.shape[1]))
      
-    if z_axis > image.shape[0]:
-        print('Input image is 2D but with 3D slicing subvolume inputs... input error on z-axis autocorrected...', flush=True)
-        z_axis = image.shape[0]
+        if z_axis > image.shape[0]:
+            print('Input image is 2D but with 3D slicing subvolume inputs... input error on z-axis autocorrected to 2D...', flush=True)
+            z_axis = image.shape[0]
+
+    if  y_axis >  image.shape[-1]:
+        print('Error:::::::::::::width of the patch is more than the width of the actual image being sliced')
+        sys.exit()
+
+    if  x_axis >  image.shape[-2]:
+        print('Error:::::::::::::height of the patch is more than the height of the actual image being sliced')
+        sys.exit()
+        
+    if  z_axis >  image.shape[-3]:
+        print('Error:::::::::::::thickness of the patch is more than the thickness of the actual image being sliced')
+        sys.exit()        
                     
     print('Converting input image to int8...', flush=True)
     image = image.astype(np.uint8)
@@ -106,6 +126,7 @@ def unpatch(patched_img, large_img_dim):
         
     Returns:
         (Array of uint8): A 3D array of the combined subvolume.
+        Note: If you get this error (cannot reshape array of size 4718592 into shape ....) please check the large_img_dim, its likely wrong.
     '''
     
     if len(patched_img.shape) == 3:
